@@ -6,6 +6,7 @@ const MovieSchema = new mongoose.Schema({
     movieYear: Number, 
     isCurrentlyInTheaters: Boolean,
     rating: Number,
+    owner_id: String,
 })
 
 module.exports = mongoose.model("Movie", MovieSchema); 
