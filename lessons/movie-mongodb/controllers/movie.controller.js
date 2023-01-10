@@ -39,7 +39,8 @@ router.get('/owner', validateSession, async(req, res) => {
 // get all movies
 router.get("/", validateSession, async (req, res) => {
   try {
-    const movie = await Movie.find();
+    // need to remove populate for simple string from id see model, two ways to do it. this is to not have to do multiple database hits
+    const movie = await Movie.find().populate("owner_id", "firstName lastName" );
     res.status(200).json({
       movie: movie,
       message: "Success",
@@ -57,7 +58,9 @@ router.delete('/:id',validateSession, async(req, res) => {
 
     if(!movieRecord) throw new Error ("Record Does Not Exist")
 
-    const isValidOwner = req.user._id == movieRecord.owner_id
+    // Original without extra object just using string.
+    // const isValidOwner = req.user._id == movieRecord.owner_id
+    const isValidOwner = movieRecord.owner_id.equals(req.user._id);
     if(!isValidOwner){
         throw new Error ("The id supplied for movie record is not owned by this user. Movie wasn't deleted")
     }

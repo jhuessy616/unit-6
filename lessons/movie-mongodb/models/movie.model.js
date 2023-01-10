@@ -6,7 +6,10 @@ const MovieSchema = new mongoose.Schema({
     movieYear: Number, 
     isCurrentlyInTheaters: Boolean,
     rating: Number,
-    owner_id: String,
+    // simple way to do it
+    // owner_id: String,
+    // for special added tables
+       owner_id: {type: mongoose.Types.ObjectId, ref: "User"},
 })
 
 module.exports = mongoose.model("Movie", MovieSchema); 
